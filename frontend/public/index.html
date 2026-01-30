@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sistema de validação de certificados digitais da Fundação Hospital Centenário">
+    <title>Validação de Certificados | Fundação Hospital Centenário</title>
+    <link rel="stylesheet" href="../src/css/styles.css">
+</head>
+
+<body class="min-h-screen">
+    <!-- ========================================
+         CONTAINER PRINCIPAL
+         ======================================== -->
+    <main class="container mx-auto px-4 py-8 md:py-12 lg:py-16 max-w-4xl">
+
+        <!-- ========================================
+             CABEÇALHO COM LOGO E TÍTULO
+             ======================================== -->
+        <header class="flex items-center justify-between mb-8 md:mb-12 bg-white/95 backdrop-blur-sm rounded-lg shadow-md p-4 md:p-6 fade-in">
+            <!-- Logo -->
+            <div class="flex-shrink-0">
+                <img 
+                    src="../assets/LogoQuadradoFHCSL.png" 
+                    alt="Logo Fundação Hospital Centenário" 
+                    class="h-12 md:h-16 lg:h-20 w-auto"
+                >
+            </div>
+            
+            <!-- Título -->
+            <div class="text-right ml-4">
+                <h1 class="text-lg md:text-xl lg:text-2xl font-bold text-primary">
+                    Validação de Certificados
+                </h1>
+                <p class="text-xs md:text-sm text-gray-600 mt-1">
+                    Fundação Hospital Centenário
+                </p>
+            </div>
+        </header>
+
+        <!-- ========================================
+             FORMULÁRIO DE VALIDAÇÃO
+             ======================================== -->
+        <section id="formSection" class="bg-white/95 backdrop-blur-sm rounded-lg shadow-lg p-6 md:p-8 mb-6 fade-in delay-1" aria-label="Formulário de validação">
+            <form id="validationForm" class="space-y-4">
+                <!-- Campo de entrada do código -->
+                <div>
+                    <label for="certificateCode" class="block text-sm font-medium text-primary mb-2">
+                        Insira o código do certificado:
+                    </label>
+                    <input 
+                        type="text"
+                        id="certificateCode"
+                        name="certificateCode"
+                        placeholder="CERT-AAAAMMDD-HHMMSS-XXXX"
+                        maxlength="27"
+                        class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-secondary focus:border-secondary outline-none transition-all text-sm md:text-base"
+                        aria-describedby="codeHint"
+                        required
+                    >
+                    <p id="codeHint" class="mt-1 text-xs text-gray-500">
+                        Formato aceito: CERT-AAAAMMDD-HHMMSS-XXXX
+                    </p>
+                </div>
+
+                <!-- Botão de validação com efeito hover -->
+                <button 
+                    type="submit" 
+                    id="validateButton" 
+                    class="btn-validate w-full bg-gradient-to-r from-primary to-secondary text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 text-sm md:text-base shadow-md hover:shadow-xl"
+                    aria-label="Validar certificado"
+                >
+                    Validar Certificado
+                </button>
+            </form>
+        </section>
+
+        <!-- ========================================
+             RESULTADO DA VALIDAÇÃO
+             ======================================== -->
+        <section id="resultSection" class="hidden fade-in" aria-label="Resultado da validação">
+            <article id="resultCard" class="bg-white/95 backdrop-blur-sm rounded-lg shadow-lg p-6 md:p-8">
+                <!-- Cabeçalho com status -->
+                <header class="text-center mb-6 pb-6 border-b border-gray-200">
+                    <div 
+                        id="statusBadge" 
+                        class="inline-block px-4 py-2 rounded-full font-semibold text-sm md:text-base mb-2"
+                        role="status"
+                        aria-live="polite"
+                    >
+                        <!-- Status será inserido via JavaScript -->
+                    </div>
+                    <h2 class="text-xl md:text-2xl font-bold text-primary mt-2">
+                        Informações do Certificado
+                    </h2>
+                </header>
+
+                <!-- Detalhes do Certificado -->
+                <div class="space-y-4">
+                    <!-- Nome do Participante -->
+                    <div class="border-b border-gray-100 pb-3">
+                        <p class="text-xs md:text-sm text-gray-500 font-medium mb-1">
+                            Nome do Participante
+                        </p>
+                        <p id="participantName" class="text-base md:text-lg text-gray-800 font-semibold">
+                            -
+                        </p>
+                    </div>
+
+                    <!-- Título do treinamento -->
+                    <div class="border-b border-gray-100 pb-3">
+                        <p class="text-xs md:text-sm text-gray-500 font-medium mb-1">
+                            Título do Treinamento/Capacitação
+                        </p>
+                        <p id="trainingTitle" class="text-base md:text-lg text-gray-800 font-semibold">
+                            -
+                        </p>
+                    </div>
+
+                    <!-- Carga Horária e data (grid responsivo) -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Carga Horária -->
+                        <div class="border-b border-gray-100 pb-3">
+                            <p class="text-xs md:text-sm text-gray-500 font-medium mb-1">
+                                Carga Horária
+                            </p>
+                            <p id="workload" class="text-base md:text-lg text-gray-800 font-semibold">
+                                -
+                            </p>
+                        </div>
+
+                        <!-- Data de capacitação -->
+                        <div class="border-b border-gray-100 pb-3">
+                            <p class="text-xs md:text-sm text-gray-500 font-medium mb-1">
+                                Data da Capacitação
+                            </p>
+                            <p id="trainingDate" class="text-base md:text-lg text-gray-800 font-semibold">
+                                -
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Situação do certificado -->
+                    <div class="border-b border-gray-100 pb-3">
+                        <p class="text-xs md:text-sm text-gray-500 font-medium mb-1">
+                            Situação do Certificado
+                        </p>
+                        <p id="certificateStatus" class="text-base md:text-lg text-gray-800 font-semibold">
+                            -
+                        </p>
+                    </div>
+
+                    <!-- Código do certificado -->
+                    <div class="pb-3">
+                        <p class="text-xs md:text-sm text-gray-500 font-medium mb-1">
+                            Código do Certificado
+                        </p>
+                        <p id="certificateCodeResult" class="text-base md:text-lg text-gray-800 font-mono font-semibold break-all">
+                            -
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Botão para nova validação -->
+                <footer class="mt-6 pt-6 border-t border-gray-200">
+                    <button 
+                        id="newValidationButton" 
+                        class="w-full bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 text-sm md:text-base shadow-md hover:shadow-lg"
+                        aria-label="Validar outro certificado"
+                    >
+                        Validar Outro Certificado
+                    </button>
+                </footer>
+            </article>
+        </section>
+
+        <!-- ========================================
+             MENSAGEM DE ERRO
+             ======================================== -->
+        <section id="errorSection" class="hidden fade-in" aria-label="Mensagem de erro">
+            <div class="bg-red-50/95 backdrop-blur-sm border-2 border-red-200 rounded-lg p-6 md:p-8 text-center shadow-lg">
+                <div class="text-red-600 mb-4">
+                    <svg class="w-12 h-12 md:w-16 md:h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-lg md:text-xl font-bold text-red-800 mb-2">
+                    Certificado não encontrado
+                </h3>
+                <p id="errorMessage" class="text-sm md:text-base text-red-600 mb-4">
+                    O código inserido não foi localizado em nossa base de dados.
+                </p>
+                <button 
+                    id="tryAgainButton" 
+                    class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-6 rounded-lg transition-all duration-200 text-sm md:text-base shadow-md hover:shadow-lg"
+                    aria-label="Tentar novamente"
+                >
+                    Tentar Novamente
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="../src/js/script.js"></script>
+</body>
+</html>

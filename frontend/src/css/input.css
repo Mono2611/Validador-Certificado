@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ========================================
+   BACKGROUND DA PÁGINA
+   ======================================== */
+body {
+    background-image: url('../../assets/certBG.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    position: relative;
+    min-height: 100vh;
+}
+
+/* Overlay sutil para melhorar legibilidade */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(2px);
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* ========================================
+   ANIMAÇÕES DE FADE-IN
+   ======================================== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
+    opacity: 0;
+}
+
+.fade-in.delay-1 {
+    animation-delay: 0.2s;
+}
+
+/* ========================================
+   BOTÃO VALIDAR - EFEITO EXPANSÃO
+   ======================================== */
+.btn-validate {
+    transform: scale(0.95);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-validate:hover {
+    transform: scale(1);
+    box-shadow: 0 10px 25px -5px rgba(25, 134, 172, 0.5);
+}
+
+.btn-validate:active {
+    transform: scale(0.98);
+}
+
+/* ========================================
+   CARDS COM BACKDROP BLUR
+   ======================================== */
+.backdrop-blur-sm {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+/* ========================================
+   SCROLL SUAVE
+   ======================================== */
+html {
+    scroll-behavior: smooth;
+}
