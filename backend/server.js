@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 require('./src/config/database');
 
 //Rota teste
-app.get('./api/health', (req, res) => {
+app.get('/api/health', (req, res) => {
   res.json({status: 'Ok',
         message: 'API Funcionando',
         timestamp: new Date().toString()
