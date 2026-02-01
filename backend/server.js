@@ -1,3 +1,5 @@
+const certificadosRoutes = require('./src/routes/certificadosRoutes');
+
 //SERVIDOR PRINCIPAL - EXPRESS
 const express = require('express');
 const cors = require('cors');
@@ -11,8 +13,16 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Rotas de certificados
+app.use('/api', certificadosRoutes);
+
+
 //Inicializar o banco
 require('./src/config/database');
+
+// Inicializar o model (cria a tabela se não existir)
+require('./src/models/certificadoModel');
+
 
 //Rota teste
 app.get('/api/health', (req, res) => {
