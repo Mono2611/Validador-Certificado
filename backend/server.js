@@ -12,6 +12,8 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use('/api', certificadosRoutes);
+
 
 // Rotas de certificados
 app.use('/api', certificadosRoutes);
@@ -22,7 +24,6 @@ require('./src/config/database');
 
 // Inicializar o model (cria a tabela se não existir)
 require('./src/models/certificadoModel');
-
 
 //Rota teste
 app.get('/api/health', (req, res) => {

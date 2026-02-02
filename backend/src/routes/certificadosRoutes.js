@@ -15,6 +15,44 @@ const regexCodigo = /^CERT-\d{8}-\d{6}-[A-Z0-9]{4}$/;
 */
 router.post('/validate', (req, res) => {
 
+  // GET /api/certificates/:code
+router.get('/certificates/:code', (req, res) => {
+  const code = String(req.params.code || '').trim().toUpperCase();
+
+  // mesmo regex do projeto
+  const regexCodigo = /^CERT-\d{8}-\d{6}-[A-Z0-9]{4}$/;
+
+  if (!regexCodigo.test(code)) {
+    return res.status(400).json({
+      valid: false,
+      message: 'Formato de código inválido.'
+    });
+  }
+
+  buscarPorCodigo(code, (err, certificado) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({
+        valid: false,
+        message: 'Erro interno no servidor.'
+      });
+    }
+
+    if (!certificado) {
+      return res.status(404).json({
+        valid: false,
+        message: 'Certificado não encontrado.'
+      });
+    }
+
+    return res.json({
+      valid: true,
+      certificate: certificado
+    });
+  });
+});
+
+
   // Normaliza o código (remove espaços e força maiúsculo)
   const code = String(req.body.code || '')
     .trim()
